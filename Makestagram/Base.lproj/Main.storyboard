@@ -58,11 +58,39 @@
                     <view key="view" contentMode="scaleToFill" id="98T-5E-fP4">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="x0l-4f-B7i">
+                                <rect key="frame" x="0.0" y="20" width="600" height="531"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="PostCell" id="fZz-N8-m0Q">
+                                        <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fZz-N8-m0Q" id="Qmf-NT-wyP">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="n58-pE-UvX" id="gEw-C0-TQQ"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="x0l-4f-B7i" secondAttribute="trailing" id="JZm-kh-H0g"/>
+                            <constraint firstItem="3LX-OU-c8e" firstAttribute="top" secondItem="x0l-4f-B7i" secondAttribute="bottom" id="PtW-KO-4cJ"/>
+                            <constraint firstItem="x0l-4f-B7i" firstAttribute="top" secondItem="Pjp-x8-tEW" secondAttribute="bottom" id="dKq-29-RM5"/>
+                            <constraint firstItem="x0l-4f-B7i" firstAttribute="leading" secondItem="98T-5E-fP4" secondAttribute="leading" id="e3o-25-mgt"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="home" id="10d-U5-483">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
                     </tabBarItem>
+                    <connections>
+                        <outlet property="tableView" destination="x0l-4f-B7i" id="mmh-Uc-S79"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HmN-i9-3Oh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
