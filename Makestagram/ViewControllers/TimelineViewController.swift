@@ -25,7 +25,8 @@ class TimelineViewController: UIViewController {
         // instantiate photo taking class, provide callback for when photo is selected
         photoTakingHelper = PhotoTakingHelper(viewController: self.tabBarController!) { (image: UIImage?) in
             let post = Post()
-            post.image = image
+            // 1
+            post.image.value = image!
             post.uploadPost()
         }
     }
@@ -36,30 +37,9 @@ class TimelineViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        // All the followed users.
-        let followingQuery = PFQuery(className: "Follow")
-        followingQuery.whereKey("fromUser", equalTo:PFUser.currentUser()!)
-        
-        //  Gett all the posts from Followed Users.
-        let postsFromFollowedUsers = Post.query()
-        postsFromFollowedUsers!.whereKey("user", matchesKey: "toUser", inQuery: followingQuery)
-        
-        // Get all the posts from the current user!
-        let postsFromThisUser = Post.query()
-        postsFromThisUser!.whereKey("user", equalTo: PFUser.currentUser()!)
-        
-        // Created the query from Parse.
-        let query = PFQuery.orQueryWithSubqueries([postsFromFollowedUsers!, postsFromThisUser!])
-        // Include the user as the part of the queries.
-        query.includeKey("user")
-        // Descending based on time created by.
-        query.orderByDescending("createdAt")
-        
-        // 7
-        query.findObjectsInBackgroundWithBlock {(result: [PFObject]?, error: NSError?) -> Void in
-            // 8
+        ParseHelper.timelineRequestForCurrentUser { (result: [PFObject]?, error: NSError?) -> Void in
             self.posts = result as? [Post] ?? []
-            // 9
+            
             self.tableView.reloadData()
         }
     }
@@ -87,10 +67,12 @@ extension TimelineViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        // 2
-        let cell = tableView.dequeueReusableCellWithIdentifier("PostCell")!
+        let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as! PostTableViewCell
         
-        cell.textLabel!.text = "Post"
+        let post = posts[indexPath.row]
+        post.downloadImage()
+        post.fetchLikes()
+        cell.post = post
         
         return cell
     }

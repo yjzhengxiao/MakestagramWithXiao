@@ -38,6 +38,8 @@
 		E12823BA1D207F74002B7853 /* FriendSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12823B91D207F74002B7853 /* FriendSearchViewController.swift */; };
 		E12823BF1D20C0F4002B7853 /* PhotoTakingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12823BE1D20C0F4002B7853 /* PhotoTakingHelper.swift */; };
 		E12823C21D21C23E002B7853 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12823C11D21C23E002B7853 /* Post.swift */; };
+		E12823CC1D21EEFD002B7853 /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12823CB1D21EEFD002B7853 /* PostTableViewCell.swift */; };
+		E12823CE1D22B532002B7853 /* ParseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E12823CD1D22B532002B7853 /* ParseHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +104,8 @@
 		E12823B91D207F74002B7853 /* FriendSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendSearchViewController.swift; sourceTree = "<group>"; };
 		E12823BE1D20C0F4002B7853 /* PhotoTakingHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoTakingHelper.swift; sourceTree = "<group>"; };
 		E12823C11D21C23E002B7853 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		E12823CB1D21EEFD002B7853 /* PostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
+		E12823CD1D22B532002B7853 /* ParseHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseHelper.swift; sourceTree = "<group>"; };
 		E3E9F6928403AF698262309F /* Pods-MakestagramTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MakestagramTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MakestagramTests/Pods-MakestagramTests.release.xcconfig"; sourceTree = "<group>"; };
 		E90EF6307DCCDD1C8928B547 /* Pods-Makestagram.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Makestagram.release.xcconfig"; path = "Pods/Target Support Files/Pods-Makestagram/Pods-Makestagram.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -191,6 +195,7 @@
 			children = (
 				6277189D1B0A58E800AF5C6E /* ErrorHandling.swift */,
 				6277189E1B0A58E800AF5C6E /* ParseLoginHelper.swift */,
+				E12823CD1D22B532002B7853 /* ParseHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -218,6 +223,7 @@
 		62C8C1E21B06BD6500DC3EA7 /* Makestagram */ = {
 			isa = PBXGroup;
 			children = (
+				E12823C31D21E852002B7853 /* Views */,
 				E12823C01D21C193002B7853 /* Models */,
 				E12823BD1D20BCC6002B7853 /* PhotoTaking */,
 				6277189C1B0A58E800AF5C6E /* Helpers */,
@@ -282,6 +288,22 @@
 				E12823C11D21C23E002B7853 /* Post.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		E12823C31D21E852002B7853 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E12823C41D21E852002B7853 /* Timeline */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E12823C41D21E852002B7853 /* Timeline */ = {
+			isa = PBXGroup;
+			children = (
+				E12823CB1D21EEFD002B7853 /* PostTableViewCell.swift */,
+			);
+			path = Timeline;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -503,6 +525,8 @@
 				E12823B81D207EFE002B7853 /* PhotoViewController.swift in Sources */,
 				62C8C1E61B06BD6500DC3EA7 /* AppDelegate.swift in Sources */,
 				627718971B0A581700AF5C6E /* FilterViewController.swift in Sources */,
+				E12823CE1D22B532002B7853 /* ParseHelper.swift in Sources */,
+				E12823CC1D21EEFD002B7853 /* PostTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

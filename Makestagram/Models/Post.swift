@@ -8,6 +8,7 @@
 
 import Foundation
 import Parse
+import Bond
 
 // 1
 class Post : PFObject, PFSubclassing {
@@ -16,7 +17,8 @@ class Post : PFObject, PFSubclassing {
     @NSManaged var imageFile: PFFile?
     @NSManaged var user: PFUser?
     
-    var image: UIImage?
+    var image: Observable<UIImage?> = Observable(nil)
+    var likes: Observable<[PFUser]?> = Observable(nil)
     var photoUploadTask: UIBackgroundTaskIdentifier?
     
     
@@ -42,28 +44,83 @@ class Post : PFObject, PFSubclassing {
     
     
     func uploadPost() {
-        if let image = image {
-            // Use the guard to extend the scope and deal with the code even when the variable does not exist.
+        
+        if let image = image.value {
+            
             guard let imageData = UIImageJPEGRepresentation(image, 0.8) else {return}
             guard let imageFile = PFFile(name: "image.jpg", data: imageData) else {return}
             
-            // Use save in background to run the code asynconously.
-            user = PFUser.currentUser() // any uploaded post should be associated with the current user
+            user = PFUser.currentUser()
             self.imageFile = imageFile
             
-            // Make sure the long running task do not get suspended after the app get closed: boilerplate code.
-            // The API for background jobs makes us responsible for calling UIApplication.sharedApplication().endBackgroundTask 
-            // as soon as our work is completed.
             photoUploadTask = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler { () -> Void in
                 UIApplication.sharedApplication().endBackgroundTask(self.photoUploadTask!)
             }
             
-            // Make the photo uploading code running in the background.
-            saveInBackgroundWithBlock() { (success: Bool, error: NSError?) in
-                // 3
+            saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
                 UIApplication.sharedApplication().endBackgroundTask(self.photoUploadTask!)
             }
+        }
+    }
+    
+    func downloadImage() {
+        // if image is not downloaded yet, get it
+        // 1
+        if (image.value == nil) {
+            // 2
+            imageFile?.getDataInBackgroundWithBlock { (data: NSData?, error: NSError?) -> Void in
+                if let data = data {
+                    let image = UIImage(data: data, scale:1.0)!
+                    // 3
+                    self.image.value = image
+                }
+            }
+        }
+    }
+    
+    //fetching all the likes of the Post.
+    func fetchLikes() {
+        // 1
+        if (likes.value != nil) {
+            return
+        }
+        
+        // 2
+        ParseHelper.likesForPost(self, completionBlock: { (likes: [PFObject]?, error: NSError?) -> Void in
+            // 3
+            let validLikes = likes?.filter { like in like[ParseHelper.ParseLikeFromUser] != nil }
             
+            // 4
+            self.likes.value = validLikes?.map { like in
+                let fromUser = like[ParseHelper.ParseLikeFromUser] as! PFUser
+                
+                return fromUser
+            }
+        })
+    }
+    
+    // Check whether a given post is liked by a given user.
+    func doesUserLikePost(user: PFUser) -> Bool {
+        if let likes = likes.value {
+            return likes.contains(user)
+        } else {
+            return false
+        }
+    }
+    
+    func toggleLikePost(user: PFUser) {
+        if (doesUserLikePost(user)) {
+            // if post is liked, unlike it now
+            //print("this post is liked, unlike it now")
+            // 1
+            likes.value = likes.value?.filter { $0 != user }
+            ParseHelper.unlikePost(user, post: self)
+        } else {
+            // if this post is not liked yet, like it now
+            //print("this post is not liked yet, like it now")
+            // 2
+            likes.value?.append(user)
+            ParseHelper.likePost(user, post: self)
         }
     }
     
